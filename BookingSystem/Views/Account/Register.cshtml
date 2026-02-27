@@ -1,0 +1,302 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container">
+    <div class="row justify-content-center align-items-center min-vh-100">
+        <!-- Left side - Text Section -->
+        <div class="col-md-5 mb-4 mb-md-0">
+            <div class="text-section">
+                <h1 class="display-4 fw-bold mb-4">Sign In To Your<br>Healthcare Hub</h1>
+                <p class="lead mb-4">
+                    • Manage appointments<br>
+                    • Update your details<br>
+                    • Access care - anytime, anywhere
+                </p>
+            </div>
+        </div>
+
+        <!-- Right side - Registration Form -->
+        <div class="col-md-6 offset-md-1">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h2 class="text-center">Create Your SmartCare Account</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Register" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <!-- Full Name -->
+                        <div class="form-group mb-3">
+                            <label for="fullName" class="form-label">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                <input type="text" class="form-control" id="fullName" name="fullName" required
+                                       placeholder="Enter your full name">
+                            </div>
+                        </div>
+
+                        <!-- Surname -->
+                        <div class="form-group mb-3">
+                            <label for="surname" class="form-label">Surname</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" class="form-control" id="surname" name="surname" required
+                                       placeholder="Enter your surname">
+                            </div>
+                        </div>
+
+                        <!-- ID/Passport -->
+                        <div class="form-group mb-3">
+                            <label for="idNumber" class="form-label">ID/Passport Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                                <input type="text" class="form-control" id="idNumber" name="idNumber" required
+                                       placeholder="Enter your ID or passport number">
+                            </div>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="form-group mb-3">
+                            <label for="dateOfBirth" class="form-label">Date of Birth</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-calendar"></i></span>
+                                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
+                            </div>
+                        </div>
+
+                        <!-- Email Address -->
+                        <div class="form-group mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control" id="email" name="email" required
+                                       placeholder="Enter your email address">
+                            </div>
+                        </div>
+
+                        <!-- Mobile Number -->
+                        <div class="form-group mb-3">
+                            <label for="mobileNumber" class="form-label">Mobile Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                                <input type="tel" class="form-control" id="mobileNumber" name="mobileNumber" required
+                                       placeholder="Enter your mobile number">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password" required
+                                       placeholder="Create a password">
+                            </div>
+                        </div>
+
+                        <!-- Confirm Password -->
+                        <div class="form-group mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                                       placeholder="Confirm your password">
+                            </div>
+                        </div>
+
+                        <!-- Validation Summary -->
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            <div class="alert alert-danger">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            </div>
+                        }
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary-custom">Create Account</button>
+                        </div>
+                    </form>
+
+                    <div class="text-center mt-4">
+                        <p class="mb-2 text-white">Already have an account?</p>
+                        <div class="d-flex justify-content-center">
+                            <a asp-controller="Account" asp-action="Index" class="btn btn-outline-custom">Sign In</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)), url('https://www.transparenttextures.com/patterns/cubes.png') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .min-vh-100 {
+        min-height: 100vh;
+    }
+
+    /* Text Section Styles */
+    .text-section {
+        padding: 2rem;
+        color: #000000; /* Black text */
+    }
+
+        .text-section h1 {
+            color: #000000;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: none;
+        }
+
+        .text-section p {
+            color: #000000;
+            font-size: 1.25rem;
+            line-height: 2;
+        }
+
+        .text-section .lead {
+            font-weight: 500;
+        }
+
+    .card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+    .card-header {
+        background: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 20px 20px 0 0 !important;
+    }
+
+        .card-header h2 {
+            color: white;
+            font-weight: 300;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-size: 1.8rem;
+        }
+
+    .card-body {
+        padding: 30px;
+    }
+
+    .form-label {
+        color: white;
+        font-weight: 500;
+        margin-bottom: 8px;
+    }
+
+    .input-group-text {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        border-radius: 10px 0 0 10px;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 12px;
+        border-radius: 0 10px 10px 0;
+    }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Style for date input */
+        .form-control[type="date"] {
+            color-scheme: dark;
+        }
+
+            .form-control[type="date"]::-webkit-calendar-picker-indicator {
+                filter: invert(1);
+                opacity: 0.6;
+                cursor: pointer;
+            }
+
+                .form-control[type="date"]::-webkit-calendar-picker-indicator:hover {
+                    opacity: 1;
+                }
+
+    .btn-primary-custom {
+        background: white;
+        color: cadetblue;
+        border: 2px solid white;
+        padding: 12px;
+        border-radius: 50px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        margin-top: 10px;
+    }
+
+        .btn-primary-custom:hover {
+            background: transparent;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+    .btn-outline-custom {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+        border-radius: 50px;
+        padding: 8px 30px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: cadetblue;
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+    .alert-danger {
+        background: rgba(220, 53, 69, 0.2);
+        border: 1px solid rgba(220, 53, 69, 0.5);
+        color: white;
+        border-radius: 10px;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 768px) {
+        .text-section {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .display-4 {
+            font-size: 2.5rem;
+        }
+    }
+</style>
