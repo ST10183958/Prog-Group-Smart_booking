@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Care - Appointment Details</title>
+
+    <style>
+        body {
+            background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)), url('https://www.transparenttextures.com/patterns/cubes.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .top-table td {
+            vertical-align: middle;
+        }
+
+        .logo-box {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f2d2d;
+        }
+
+        .small-box {
+            width: 140px;
+            height: 35px;
+            background: rgba(255,255,255,0.65);
+            border: 1px solid #cfdede;
+            display: inline-block;
+        }
+
+        .back-btn, .dark-btn, .upload-btn, .confirm-btn, .edit-btn {
+            cursor: pointer;
+        }
+
+        .page-wrap {
+            width: 95%;
+            margin: 0 auto;
+            padding: 20px 0 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 54px;
+            margin: 20px 0 10px;
+            color: #2a2a2a;
+        }
+
+        h2, h3 {
+            text-align: center;
+            margin: 8px 0;
+            color: #1f2d2d;
+        }
+
+        .main-layout {
+            width: 100%;
+            margin-top: 25px;
+        }
+
+        .sidebar {
+            width: 270px;
+            vertical-align: top;
+            padding-left: 30px;
+        }
+
+        .content-area {
+            vertical-align: top;
+            padding-right: 20px;
+        }
+
+        input[type="text"], input[type="date"], select, textarea {
+            width: 95%;
+            padding: 8px;
+            border: 1px solid #c7dede;
+            background: rgba(255,255,255,0.35);
+            outline: none;
+        }
+
+        .center-icon {
+            text-align: center;
+            font-size: 32px;
+        }
+
+        .back-box, .dark-box {
+            width: 45px;
+            height: 45px;
+            border: none;
+            font-size: 22px;
+            background: #111;
+            color: white;
+        }
+
+        .dark-box {
+            width: 160px;
+            background: #9fb8b5;
+            color: #1f2d2d;
+        }
+
+        .doctor-box {
+            background: rgba(255,255,255,0.35);
+            padding: 18px;
+            min-height: 160px;
+            border: 1px solid #c5dddd;
+        }
+
+        .action-btn {
+            padding: 10px 18px;
+            border: 1px solid #8aa;
+            background: #5f7f7b;
+            color: #111;
+            font-size: 16px;
+        }
+
+        .confirm-booking {
+            width: 250px;
+            padding: 14px;
+            border: 1px solid #c7dede;
+            background: rgba(255,255,255,0.45);
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-wrap">
+
+        <!-- top header -->
+        @* <table style="width: 100%;">
+            <tr class="top-table">
+                <td style="width: 60%;">
+                    <div class="logo-box">
+                        📞 MEDICAL CARE<br>
+                        <span style="font-weight: normal;">098 998 9898</span>
+                    </div>
+                </td>
+                <td style="text-align: right;">
+                    <span class="small-box"></span>
+                    <span class="small-box" style="margin-left: 8px;"></span>
+                </td>
+            </tr>
+        </table> *@
+
+        @* <!-- nav row -->
+        <table style="width: 100%; margin-top: 10px;">
+            <tr>
+                <td style="width: 80px;">
+                    <button class="back-box back-btn">&#8592;</button>
+                </td>
+                <td class="center-icon">
+                    🩺
+                </td>
+                <td style="width: 180px; text-align: right;">
+                    <button class="dark-box dark-btn">Need Help?</button>
+                </td>
+            </tr>
+        </table> *@
+
+        <h1>Enter Your Appointment Details Below</h1>
+        <h3>TELL US ABOUT YOUR APPOINTMENT REQUIREMENTS BELOW.</h3>
+
+        <!-- main section -->
+        <table class="main-layout">
+            <tr>
+                <!-- left/main form area -->
+                <td class="content-area">
+                    <table style="width: 100%; border-spacing: 20px 35px;">
+                        <tr>
+                            <td>
+                                <label><strong>Province:</strong></label><br><br>
+                                <input type="text" name="province">
+                            </td>
+                            <td>
+                                <label><strong>Suburb:</strong></label><br><br>
+                                <input type="text" name="suburb">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td style="padding-top: 25px;">
+                                <label><strong>Preffered Appointment date (Optional):</strong></label><br><br>
+                                <input type="date" name="appointmentDate">
+                            </td>
+                            <td style="padding-top: 25px;">
+                                <label><strong>Preferred healthcare professional (optional):</strong></label><br><br>
+                                <input type="text" name="doctorName">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" style="padding-top: 15px">
+                                <label><strong>Describe your symptoms (optional):</strong></label><br><br>
+                                <textarea rows="9" name="symptoms"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <!-- right side -->
+                <td class="sidebar">
+                    <div class="doctor-box">
+                        <button class="action-btn">Check For Available Doctors:</button>
+
+                        <p style="margin-top: 40px; font-size: 16px;">
+                            Drop Down of<br>
+                            available doctors<br>
+                            here.
+                        </p>
+                    </div>
+
+                    <div style="margin-top: 60px; text-align: center;">
+                        <button class="confirm-booking">Confirm Booking Here</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>
