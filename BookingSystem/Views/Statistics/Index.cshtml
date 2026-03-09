@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Admins Page";
+}
+
+@{
+    <!DOCTYPE html>
+    <html>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
+    <body>
+
+        <canvas id="BarChart" style="width:100%;max-width:600px"></canvas>
+        <canvas id="LineChart" style="width:100%;max-width:600px"></canvas>
+
+        <script>
+            const xValues = ["Red", "Green", "Blue", "Orange", "Brown"];
+            const yValues = [55, 49, 44, 24, 15];
+            const barColors = ["red", "green","blue","orange","brown"];
+            const Years = ["2010", "2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"];
+
+            const ctx1 = document.getElementById('BarChart');
+            const ctx2 = document.getElementById('LineChart');
+
+            new Chart(ctx1, {
+              type: "bar",
+              data: {
+                labels: xValues,
+                datasets: [{
+                  backgroundColor: barColors,
+                  data: yValues
+                }]
+              },
+              options: {
+                plugins: {
+                  legend: {display: false},
+                  title: {
+                    display: true,
+                    text: "Number of patient visits",
+                    font: {size: 16}
+                  }
+                }
+              }
+            });
+
+
+            new Chart(ctx2, {
+              type: "line",
+              data: {
+                labels: Years,
+                datasets: [{
+                  fill: false,
+                  lineTension: 0,
+                  backgroundColor: "rgba(0,0,255,1.0)",
+                  borderColor: "rgba(0,0,255,0.1)",
+                  data: yValues
+                }]
+              },
+              options: {
+                plugins: {
+                  legend: {display:false},
+                  title: {
+                    display: true,
+                    text: "Patient visits per year",
+                    font: {size:16}
+                  }
+                }
+              }
+            });
+
+
+        </script>
+
+
+    </body>
+    </html>
+}
