@@ -1,18 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace BookingSystem.Models
 {
-    public class Prescription
+    public class Doctor
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PrescriptionId { get; set; }
-        public string PatientName { get; set; }
-        public string PatientSurname { get; set; }
+        public int DoctorId { get; set; }
+        public string DoctorName { get; set; }  
         public string DoctorSurname { get; set; }
-        public string MedicineName { get; set; }
-
-
     }
 }
