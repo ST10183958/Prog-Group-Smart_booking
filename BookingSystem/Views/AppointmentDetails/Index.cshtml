@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model List<BookingSystem.Models.Doctor>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -205,11 +207,16 @@
                     <div class="doctor-box">
                         <button class="action-btn">Check For Available Doctors:</button>
 
-                        <p style="margin-top: 40px; font-size: 16px;">
-                            Drop Down of<br>
-                            available doctors<br>
-                            here.
-                        </p>
+                        <select style="margin-top: 20px; width: 100%; padding: 10px;">
+                            <option value="">-- Select a Doctor --</option>
+
+                            @foreach (var doctor in Model)
+                            {
+                                <option value="@doctor.DoctorId">
+                                    @doctor.DoctorName @doctor.DoctorSurname
+                                </option>
+                            }
+                        </select>
                     </div>
 
                     <div style="margin-top: 60px; text-align: center;">
