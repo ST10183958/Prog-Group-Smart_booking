@@ -8,6 +8,7 @@ namespace BookingSystem
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddSession();
 
             builder.Services.AddControllersWithViews();
 
@@ -32,6 +33,7 @@ namespace BookingSystem
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapStaticAssets();

@@ -4,59 +4,84 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - BookingSystem</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    
+    <!-- Bootstrap Icons (FIXED) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BookingSystem.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3" style="background-color: darkcyan;">
-            <div class="container-fluid">
-                <!-- Left side - Brand/Home link -->
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index">
-                    <i class="bi bi-house-door"></i> Home
+<header>
+    <nav class="navbar navbar-expand-sm navbar-dark mb-3" style="background-color: darkcyan;">
+        <div class="container-fluid">
+
+            <!-- LEFT -->
+            <a class="navbar-brand text-white" asp-controller="Home" asp-action="Index">
+                <i class="bi bi-house-door"></i> Home
+            </a>
+
+            <a class="nav-link text-white" asp-controller="AppointmentDetails" asp-action="Index">
+                Booking
+            </a>
+
+            <!-- MOBILE TOGGLER -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- CENTER LOGO -->
+            <div class="position-absolute start-50 translate-middle-x">
+                <a asp-controller="Home" asp-action="Index">
+                    <img src="~/images/image0.png" height="60" />
                 </a>
-                <a class="nav-link text-white" asp-area="" asp-controller="AppointmentDetails" asp-action="Index">
-                    <i class="bi bi-box-arrow-in-right"></i> Booking
-                </a>
+            </div>
 
-                <!-- Toggler for mobile -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <!-- RIGHT SIDE -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+                <ul class="navbar-nav align-items-center">
 
-                <!-- Center - Logo -->
-                <div class="navbar-brand position-absolute start-50 translate-middle-x" style="top: 8px;">
-                    <a asp-area="" asp-controller="Home" asp-action="Index">
-                        <img src="~/images/image0.png" alt="SmartCare" height="60" class="d-inline-block align-text-top">
-                    </a>
-                </div>
+                    @if (Context.Session.GetString("UserName") != null)
+                    {
+                        <li class="nav-item me-3 text-white">
+                            Welcome, @Context.Session.GetString("UserName")
+                        </li>
 
-                <!-- Right side - Navigation and Login -->
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-                    <ul class="navbar-nav">
-                            <li class="nav-item">
-                                
-                            <a class="nav-link text-white" asp-area="" asp-controller="Account" asp-action="Index">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Account" asp-action="Logout">
+                                <i class="bi bi-box-arrow-right"></i> Logout
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Account" asp-action="Index">
                                 <i class="bi bi-box-arrow-in-right"></i> Login
                             </a>
                         </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+                    }
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+                </ul>
+            </div>
+
+        </div>
+    </nav>
+</header>
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

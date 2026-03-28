@@ -1,24 +1,33 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingSystem.Models
 {
-  
     public class Patient
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PatientId { get; set; }
+
+        [Required]
         public string PatientName { get; set; }
-        public string PatientSurname { get; set; } 
-        public int PassportNumber { get; set; }
-        public string DateOfBirth { get; set; }
+
+        [Required]
+        public string PatientSurname { get; set; }
+
+        public string PassportNumber { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+
+        [Required]
         public string EmailAddress { get; set; }
-        public string Password { get; set; }
+
+        [Required]
+        public string PasswordHash { get; set; }
+
+        [NotMapped] // 👈 not stored in DB
         public string ConfirmPassword { get; set; }
-        public int MobileNumber { get; set; }
 
-
-
+        public string MobileNumber { get; set; }
     }
 }
