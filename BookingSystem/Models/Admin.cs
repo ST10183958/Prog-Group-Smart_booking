@@ -7,9 +7,15 @@ namespace BookingSystem.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int AdminId { get; set; }
+        
+        [Required]
         public string AdminUsername { get; set; }
-        public string AdminPassword { get; set; }
+        
+        [Required]
+        public string Password { get; set; }
+        
+        [Required]
         public int AdminPasskey { get; set; }
     }
 }
