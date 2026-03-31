@@ -1,5 +1,9 @@
 ﻿@model List<BookingSystem.Models.Doctor>
 
+@{
+    ViewData["Title"] = "Appointment Details";
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,28 +19,6 @@
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .top-table td {
-            vertical-align: middle;
-        }
-
-        .logo-box {
-            font-size: 14px;
-            font-weight: bold;
-            color: #1f2d2d;
-        }
-
-        .small-box {
-            width: 140px;
-            height: 35px;
-            background: rgba(255,255,255,0.65);
-            border: 1px solid #cfdede;
-            display: inline-block;
-        }
-
-        .back-btn, .dark-btn, .upload-btn, .confirm-btn, .edit-btn {
-            cursor: pointer;
         }
 
         .page-wrap {
@@ -83,26 +65,6 @@
             outline: none;
         }
 
-        .center-icon {
-            text-align: center;
-            font-size: 32px;
-        }
-
-        .back-box, .dark-box {
-            width: 45px;
-            height: 45px;
-            border: none;
-            font-size: 22px;
-            background: #111;
-            color: white;
-        }
-
-        .dark-box {
-            width: 160px;
-            background: #9fb8b5;
-            color: #1f2d2d;
-        }
-
         .doctor-box {
             background: rgba(255,255,255,0.35);
             padding: 18px;
@@ -124,107 +86,147 @@
             border: 1px solid #c7dede;
             background: rgba(255,255,255,0.45);
             font-size: 16px;
+            cursor: pointer;
+        }
+
+        .alert-box {
+            width: 80%;
+            margin: 20px auto;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .alert-success {
+            background: rgba(40, 167, 69, 0.2);
+            border: 1px solid rgba(40, 167, 69, 0.6);
+            color: #103d1f;
+        }
+
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.6);
+            color: #5b1119;
+        }
+
+        .welcome-text {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 10px;
+            color: #1f2d2d;
+            font-weight: 600;
+        }
+
+        .validation-summary-errors {
+            color: #5b1119;
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid rgba(220, 53, 69, 0.6);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px auto;
+            width: 80%;
         }
     </style>
 </head>
 <body>
 
     <div class="page-wrap">
-
-        <!-- top header -->
-        @* <table style="width: 100%;">
-            <tr class="top-table">
-                <td style="width: 60%;">
-                    <div class="logo-box">
-                        📞 MEDICAL CARE<br>
-                        <span style="font-weight: normal;">098 998 9898</span>
-                    </div>
-                </td>
-                <td style="text-align: right;">
-                    <span class="small-box"></span>
-                    <span class="small-box" style="margin-left: 8px;"></span>
-                </td>
-            </tr>
-        </table> *@
-
-        @* <!-- nav row -->
-        <table style="width: 100%; margin-top: 10px;">
-            <tr>
-                <td style="width: 80px;">
-                    <button class="back-box back-btn">&#8592;</button>
-                </td>
-                <td class="center-icon">
-                    🩺
-                </td>
-                <td style="width: 180px; text-align: right;">
-                    <button class="dark-box dark-btn">Need Help?</button>
-                </td>
-            </tr>
-        </table> *@
-
         <h1>Enter Your Appointment Details Below</h1>
         <h3>TELL US ABOUT YOUR APPOINTMENT REQUIREMENTS BELOW.</h3>
 
-        <!-- main section -->
-        <table class="main-layout">
-            <tr>
-                <!-- left/main form area -->
-                <td class="content-area">
-                    <table style="width: 100%; border-spacing: 20px 35px;">
-                        <tr>
-                            <td>
-                                <label><strong>Province:</strong></label><br><br>
-                                <input type="text" name="province">
-                            </td>
-                            <td>
-                                <label><strong>Suburb:</strong></label><br><br>
-                                <input type="text" name="suburb">
-                            </td>
-                        </tr>
+        @if (ViewBag.PatientName != null)
+        {
+            <div class="welcome-text">
+                Booking for: @ViewBag.PatientName
+            </div>
+        }
 
-                        <tr>
-                            <td style="padding-top: 25px;">
-                                <label><strong>Preffered Appointment date (Optional):</strong></label><br><br>
-                                <input type="date" name="appointmentDate">
-                            </td>
-                            <td style="padding-top: 25px;">
-                                <label><strong>Preferred healthcare professional (optional):</strong></label><br><br>
-                                <input type="text" name="doctorName">
-                            </td>
-                        </tr>
+        @if (TempData["BookingSuccess"] != null)
+        {
+            <div class="alert-box alert-success">
+                @TempData["BookingSuccess"]
+            </div>
+        }
 
-                        <tr>
-                            <td colspan="2" style="padding-top: 15px">
-                                <label><strong>Describe your symptoms (optional):</strong></label><br><br>
-                                <textarea rows="9" name="symptoms"></textarea>
-                            </td>
-                        </tr>
-                    </table>
-                </td>
+        @if (TempData["BookingError"] != null)
+        {
+            <div class="alert-box alert-danger">
+                @TempData["BookingError"]
+            </div>
+        }
 
-                <!-- right side -->
-                <td class="sidebar">
-                    <div class="doctor-box">
-                        <button class="action-btn">Check For Available Doctors:</button>
+        @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
 
-                        <select style="margin-top: 20px; width: 100%; padding: 10px;">
-                            <option value="">-- Select a Doctor --</option>
+        <form asp-action="CreateAppointment" method="post">
+            @Html.AntiForgeryToken()
 
-                            @foreach (var doctor in Model)
-                            {
-                                <option value="@doctor.DoctorId">
-                                    @doctor.DoctorName @doctor.DoctorSurname
-                                </option>
-                            }
-                        </select>
-                    </div>
+            <table class="main-layout">
+                <tr>
+                    <td class="content-area">
+                        <table style="width: 100%; border-spacing: 20px 35px;">
+                            <tr>
+                                <td>
+                                    <label><strong>Province:</strong></label><br><br>
+                                    <input type="text" name="province" required>
+                                </td>
+                                <td>
+                                    <label><strong>Suburb:</strong></label><br><br>
+                                    <input type="text" name="suburb" required>
+                                </td>
+                            </tr>
 
-                    <div style="margin-top: 60px; text-align: center;">
-                        <button class="confirm-booking">Confirm Booking Here</button>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                            <tr>
+                                <td style="padding-top: 25px;">
+                                    <label><strong>Preferred Appointment Date (Optional):</strong></label><br><br>
+                                    <input type="date" name="appointmentDate">
+                                </td>
+                                <td style="padding-top: 25px;">
+                                    <label><strong>Preferred healthcare professional:</strong></label><br><br>
+                                    <select name="doctorId" required>
+                                        <option value="">-- Select a Doctor --</option>
+
+                                        @foreach (var doctor in Model)
+                                        {
+                                            <option value="@doctor.DoctorId">
+                                                @doctor.DoctorName @doctor.DoctorSurname
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" style="padding-top: 15px">
+                                    <label><strong>Describe your symptoms:</strong></label><br><br>
+                                    <textarea rows="9" name="symptoms" required></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+
+                    <td class="sidebar">
+                        <div class="doctor-box">
+                            <button type="button" class="action-btn">Available Doctors</button>
+
+                            <select style="margin-top: 20px; width: 100%; padding: 10px;" disabled>
+                                <option value="">-- Select a Doctor --</option>
+
+                                @foreach (var doctor in Model)
+                                {
+                                    <option value="@doctor.DoctorId">
+                                        @doctor.DoctorName @doctor.DoctorSurname
+                                    </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div style="margin-top: 60px; text-align: center;">
+                            <button type="submit" class="confirm-booking">Confirm Booking Here</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 
 </body>

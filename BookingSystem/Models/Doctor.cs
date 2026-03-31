@@ -11,5 +11,6 @@ namespace BookingSystem.Models
         public int DoctorId { get; set; }
         public string DoctorName { get; set; }  
         public string DoctorSurname { get; set; }
+        
     }
 }

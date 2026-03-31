@@ -27,7 +27,8 @@ namespace BookingSystem.Controllers
             string hashedPassword = HashPassword(password);
 
             var user = _context.Patients
-                .FirstOrDefault(p => p.EmailAddress == username && p.PasswordHash == hashedPassword);
+                .FirstOrDefault(p => p.EmailAddress.ToLower() == username.ToLower()
+                                     && p.PasswordHash == hashedPassword);
 
             if (user == null)
             {
@@ -35,9 +36,9 @@ namespace BookingSystem.Controllers
                 return View("Index");
             }
 
-            // ✅ Store user in session
             HttpContext.Session.SetString("UserName", user.PatientName);
             HttpContext.Session.SetString("UserEmail", user.EmailAddress);
+            HttpContext.Session.SetInt32("PatientId", user.PatientId);
 
             return RedirectToAction("Index", "Home");
         }
