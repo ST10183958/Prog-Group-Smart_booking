@@ -1,0 +1,148 @@
+﻿@{
+    ViewBag.Title = "Patient List";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Patient List</title>
+
+    <style>
+            body {
+                background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)), url('https://www.transparenttextures.com/patterns/cubes.png');
+                background-size: cover;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 0;
+            }
+
+            /* HEADER */
+            .header {
+                background: rgba(0,0,0,0.2);
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                color: black;
+            }
+
+            .doctor-box {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .circle {
+                width: 50px;
+                height: 50px;
+                background: #7aa5a5;
+                border-radius: 50%;
+            }
+
+            .header-title {
+                flex: 1;
+                text-align: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            /* MAIN CONTAINER */
+            .container {
+                padding: 40px;
+            }
+
+            .card {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            /* LEFT INFO PANEL */
+            .info-box {
+                background: rgba(255,255,255,0.35);
+                padding: 25px;
+                width: 200%;
+                border-radius: 15px;
+            }
+
+                .info-box p {
+                    margin: 10px 0;
+                    font-weight: 500;
+                }
+
+            /* BUTTONS */
+            .btn-group {
+                margin-top: 20px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                border: none;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .confirm {
+                background: #5aa3a3;
+            }
+
+            .decline {
+                background: #d86a6a;
+                margin-left: 10px;
+            }
+
+            .view-btn {
+                margin-top: 25px;
+                background: #6f8f8f;
+                color: black;
+                display: inline-block;
+            }
+
+        
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="doctor-box">
+            <div class="circle"></div>
+            <div>
+                <strong>Doctor’s Name</strong><br />
+                Doctors Work admin number
+            </div>
+        </div>
+
+        <div class="header-title">
+            PATIENT LIST
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <div class="card">
+
+            <!-- LEFT -->
+            <div>
+                <div class="info-box">
+                    <p>Name:</p>
+                    <p>Surname:</p>
+                    <p>Passport Number:</p>
+                    <p>DOB:</p>
+                    <p>Email Address:</p>
+                    <p>Mobile Number:</p>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn confirm">CONFIRM APPOINTMENT</button>
+                    <button class="btn decline">DECLINE APPOINTMENT</button>
+                </div>
+
+                <button class="btn view-btn">View Full Patient List</button>
+            </div>
+
+         
+
+</body>
+</html>
