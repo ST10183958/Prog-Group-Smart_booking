@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BookingSystem.Models;
 using BookingSystem.Data;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace BookingSystem.Controllers
 {
     public class AdminController : Controller
