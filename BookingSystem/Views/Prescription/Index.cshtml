@@ -1,0 +1,103 @@
+@model List<BookingSystem.Models.Prescription>
+
+@{
+    ViewBag.Title = "My Prescriptions";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>My Prescriptions</title>
+    <style>
+        body {
+            background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)),
+            url('https://www.transparenttextures.com/patterns/cubes.png');
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+
+        .header {
+            background: rgba(0,0,0,0.2);
+            padding: 20px 30px;
+            color: black;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.35);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .card p {
+            margin: 10px 0;
+            font-weight: 500;
+        }
+
+        .empty-message {
+            background: rgba(255,255,255,0.35);
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: bold;
+            width: fit-content;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background: white;
+            color: cadetblue;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+        }
+
+        .btn-back:hover {
+            background: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        MY PRESCRIPTIONS
+    </div>
+
+    <div class="container">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var prescription in Model)
+            {
+                <div class="card">
+                    <p><strong>Prescription ID:</strong> @prescription.PrescriptionId</p>
+                    <p><strong>Patient:</strong> @prescription.Patient.PatientName @prescription.Patient.PatientSurname</p>
+                    <p><strong>Doctor:</strong> Dr. @prescription.Doctor.DoctorName @prescription.Doctor.DoctorSurname</p>
+                    <p><strong>Medicine:</strong> @prescription.MedicineName</p>
+                    <p><strong>Quantity:</strong> @prescription.Quantity</p>
+                    <p><strong>Dosage:</strong> @prescription.Dosage</p>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="empty-message">
+                You currently have no prescriptions.
+            </div>
+        }
+
+        <a asp-controller="Home" asp-action="Index" class="btn-back">Back to Home</a>
+    </div>
+
+</body>
+</html>

@@ -8,6 +8,7 @@ namespace BookingSystem
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDistributedMemoryCache();
             builder.Services.AddSession();
 
             builder.Services.AddControllersWithViews();
