@@ -17,6 +17,7 @@ namespace BookingSystem.Data
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<Prescription> Prescription  { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
+        public DbSet<Statistic> Statistics { get; set; }
         public DbSet<ConsultationRecord>  ConssultationRecords { get; set; }
     }
 }

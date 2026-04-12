@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingSystem.Models
 {
+    [Table("Admins")]
     public class Admin
     {
         [Key]

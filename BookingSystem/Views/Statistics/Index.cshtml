@@ -1,75 +1,104 @@
-﻿@{
-    ViewData["Title"] = "Admins Page";
-}
+﻿@model BookingSystem.Models.Statistic
 
 @{
-    <!DOCTYPE html>
-    <html>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
-    <body>
-
-        <canvas id="BarChart" style="width:100%;max-width:600px"></canvas>
-        <canvas id="LineChart" style="width:100%;max-width:600px"></canvas>
-
-        <script>
-            const xValues = ["Red", "Green", "Blue", "Orange", "Brown"];
-            const yValues = [55, 49, 44, 24, 15];
-            const barColors = ["red", "green","blue","orange","brown"];
-            const Years = ["2010", "2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025","2026"];
-
-            const ctx1 = document.getElementById('BarChart');
-            const ctx2 = document.getElementById('LineChart');
-
-            new Chart(ctx1, {
-              type: "bar",
-              data: {
-                labels: xValues,
-                datasets: [{
-                  backgroundColor: barColors,
-                  data: yValues
-                }]
-              },
-              options: {
-                plugins: {
-                  legend: {display: false},
-                  title: {
-                    display: true,
-                    text: "Number of patient visits",
-                    font: {size: 16}
-                  }
-                }
-              }
-            });
-
-
-            new Chart(ctx2, {
-              type: "line",
-              data: {
-                labels: Years,
-                datasets: [{
-                  fill: false,
-                  lineTension: 0,
-                  backgroundColor: "rgba(0,0,255,1.0)",
-                  borderColor: "rgba(0,0,255,0.1)",
-                  data: yValues
-                }]
-              },
-              options: {
-                plugins: {
-                  legend: {display:false},
-                  title: {
-                    display: true,
-                    text: "Patient visits per year",
-                    font: {size:16}
-                  }
-                }
-              }
-            });
-
-
-        </script>
-
-
-    </body>
-    </html>
+    ViewBag.Title = "Statistics Page";
+    Layout = null;
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Statistics Page</title>
+
+    <style>
+        body {
+            background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)),
+            url('https://www.transparenttextures.com/patterns/cubes.png');
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .page-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: black;
+        }
+
+        .table-container {
+            background: rgba(255,255,255,0.35);
+            padding: 25px;
+            border-radius: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.5);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: #5aa3a3;
+            color: black;
+            font-size: 18px;
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-title">SYSTEM STATISTICS</div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Statistic Type</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Number Of Patients</td>
+                    <td>@Model.NumOfPatients</td>
+                </tr>
+                <tr>
+                    <td>Current Number Of Appointments</td>
+                    <td>@Model.CurrentNumberOfAppointments</td>
+                </tr>
+                <tr>
+                    <td>Total Doctors</td>
+                    <td>@Model.TotalDoctors</td>
+                </tr>
+                <tr>
+                    <td>Total Patients</td>
+                    <td>@Model.TotalPatients</td>
+                </tr>
+                <tr>
+                    <td>Total Admins</td>
+                    <td>@Model.TotalAdmins</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
