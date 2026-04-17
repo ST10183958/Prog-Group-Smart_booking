@@ -1,0 +1,160 @@
+﻿@model BookingSystem.Models.Patient
+
+@{
+    ViewData["Title"] = "Edit Patient Details";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h2 class="text-center">EDIT PATIENT DETAILS</h2>
+                    <p class="text-center text-white-50">Update Your Personal Information Below:</p>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PatientName" class="form-label">Name</label>
+                                <input asp-for="PatientName" class="form-control" required />
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="PatientSurname" class="form-label">Surname</label>
+                                <input asp-for="PatientSurname" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PassportNumber" class="form-label">Passport Number</label>
+                            <input asp-for="PassportNumber" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
+                            <input asp-for="DateOfBirth" type="date" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EmailAddress" class="form-label">Email Address</label>
+                            <input asp-for="EmailAddress" type="email" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="MobileNumber" class="form-label">Mobile Number</label>
+                            <input asp-for="MobileNumber" class="form-control" required />
+                        </div>
+
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="alert alert-success">
+                                @TempData["SuccessMessage"]
+                            </div>
+                        }
+
+                        <div class="d-flex gap-3 justify-content-center mt-4">
+                            <button type="submit" class="btn btn-primary-custom">SAVE CHANGES</button>
+                            <a asp-action="Details" class="btn btn-outline-custom">CANCEL</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)), url('https://www.transparenttextures.com/patterns/cubes.png') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background: transparent;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 20px 20px 0 0 !important;
+    }
+
+        .card-header h2 {
+            color: white;
+            font-weight: 300;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+    .form-label {
+        color: white;
+        font-weight: 500;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 12px;
+        border-radius: 10px;
+    }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: white;
+            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+    .btn-primary-custom {
+        background: white;
+        color: cadetblue;
+        border: 2px solid white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary-custom:hover {
+            background: transparent;
+            color: white;
+            transform: scale(1.02);
+        }
+
+    .btn-outline-custom {
+        background: transparent;
+        color: white;
+        border: 2px solid white;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-custom:hover {
+            background: white;
+            color: cadetblue;
+            transform: scale(1.02);
+        }
+
+    .alert-success {
+        background: rgba(40, 167, 69, 0.2);
+        border: 1px solid rgba(40, 167, 69, 0.5);
+        color: white;
+        border-radius: 10px;
+    }
+</style>

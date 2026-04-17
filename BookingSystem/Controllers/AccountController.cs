@@ -95,7 +95,9 @@ namespace BookingSystem.Controllers
                 return Convert.ToBase64String(hash);
             }
         }
+
         
+
 
     }
 }

@@ -1,0 +1,118 @@
+﻿@model BookingSystem.Models.Medicine
+
+@{
+    ViewData["Title"] = "Add New Medicine";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h2 class="text-center mb-0">Add New Medicine</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="mb-3">
+                            <label asp-for="MedicineName" class="form-label">Medicine Name</label>
+                            <input asp-for="MedicineName" class="form-control" required />
+                            <span asp-validation-for="MedicineName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Stock" class="form-label">Stock Quantity</label>
+                            <input asp-for="Stock" type="number" class="form-control" required min="0" />
+                            <span asp-validation-for="Stock" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Dosage" class="form-label">Dosage (mg)</label>
+                            <input asp-for="Dosage" type="number" class="form-control" required min="0" />
+                            <span asp-validation-for="Dosage" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex gap-3 justify-content-center mt-4">
+                            <button type="submit" class="btn btn-primary-custom">
+                                <i class="bi bi-save"></i> Save Medicine
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-custom">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body {
+        background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)), url('https://www.transparenttextures.com/patterns/cubes.png') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background: rgba(95, 158, 160, 0.9);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 20px;
+        border-radius: 20px 20px 0 0 !important;
+        color: white;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .form-control {
+        border: 1px solid cadetblue;
+        border-radius: 10px;
+        padding: 10px;
+    }
+
+        .form-control:focus {
+            border-color: cadetblue;
+            box-shadow: 0 0 0 0.2rem rgba(95, 158, 160, 0.25);
+        }
+
+    .btn-primary-custom {
+        background: cadetblue;
+        color: white;
+        border: none;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary-custom:hover {
+            background: #5a9e9e;
+            transform: scale(1.02);
+        }
+
+    .btn-outline-custom {
+        background: transparent;
+        color: cadetblue;
+        border: 2px solid cadetblue;
+        padding: 10px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+        .btn-outline-custom:hover {
+            background: cadetblue;
+            color: white;
+        }
+</style>
