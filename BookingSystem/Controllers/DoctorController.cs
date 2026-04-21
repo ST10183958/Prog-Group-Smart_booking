@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using BookingSystem.Models;
 using BookingSystem.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq;
 
 namespace BookingSystem.Controllers
 {
@@ -116,21 +117,26 @@ namespace BookingSystem.Controllers
                 return NotFound();
             }
 
-            ViewBag.Medications = new List<SelectListItem>
+            var medicines = await _context.Medicines
+                .OrderBy(m => m.MedicineName)
+                .ToListAsync();
+
+            ViewBag.Medications = medicines.Select(m => new SelectListItem
             {
-                new SelectListItem { Value = "Paracetamol", Text = "Paracetamol" },
-                new SelectListItem { Value = "Ibuprofen", Text = "Ibuprofen" },
-                new SelectListItem { Value = "Amoxicillin", Text = "Amoxicillin" },
-                new SelectListItem { Value = "Cough Syrup", Text = "Cough Syrup" },
-                new SelectListItem { Value = "Vitamin C", Text = "Vitamin C" }
-            };
+                Value = m.MedicineId.ToString(),
+                Text = $"{m.MedicineName} (Stock: {m.Stock}, Dosage: {m.Dosage})"
+            }).ToList();
 
             return View(appointment);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmAppointment(int appointmentId, string symptoms, string description, string medicationName)
+        public async Task<IActionResult> ConfirmAppointment(
+            int appointmentId,
+            string symptoms,
+            string description,
+            int medicineId)
         {
             var doctorId = HttpContext.Session.GetInt32("DoctorId");
 
@@ -141,11 +147,45 @@ namespace BookingSystem.Controllers
 
             var appointment = await _context.Appointments
                 .Include(a => a.Patient)
+                .Include(a => a.Doctor)
                 .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId && a.DoctorId == doctorId.Value);
 
             if (appointment == null)
             {
                 return NotFound();
+            }
+
+            if (string.IsNullOrWhiteSpace(symptoms))
+            {
+                ModelState.AddModelError("", "Symptoms are required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                ModelState.AddModelError("", "Description / Notes are required.");
+            }
+
+            var medicine = await _context.Medicines
+                .FirstOrDefaultAsync(m => m.MedicineId == medicineId);
+
+            if (medicine == null)
+            {
+                ModelState.AddModelError("", "Please select a valid medicine.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                var medicines = await _context.Medicines
+                    .OrderBy(m => m.MedicineName)
+                    .ToListAsync();
+
+                ViewBag.Medications = medicines.Select(m => new SelectListItem
+                {
+                    Value = m.MedicineId.ToString(),
+                    Text = $"{m.MedicineName} (Stock: {m.Stock}, Dosage: {m.Dosage})"
+                }).ToList();
+
+                return View(appointment);
             }
 
             var consultationRecord = new ConsultationRecord
@@ -155,17 +195,21 @@ namespace BookingSystem.Controllers
                 DoctorId = appointment.DoctorId,
                 Symptoms = symptoms,
                 Description = description,
-                MedicationName = medicationName,
-                
+                MedicationName = medicine.MedicineName
             };
 
             _context.ConssultationRecords.Add(consultationRecord);
 
-            // optional: remove appointment after confirmation
+            if (medicine.Stock > 0)
+            {
+                medicine.Stock -= 1;
+            }
+
             _context.Appointments.Remove(appointment);
 
             await _context.SaveChangesAsync();
 
+            TempData["SuccessMessage"] = "Appointment confirmed successfully.";
             return RedirectToAction("AppointmentsPage");
         }
     }

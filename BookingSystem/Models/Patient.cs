@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BookingSystem.Models
@@ -25,7 +26,7 @@ namespace BookingSystem.Models
         [Required]
         public string PasswordHash { get; set; }
 
-        [NotMapped] // 👈 not stored in DB
+        [NotMapped]
         public string ConfirmPassword { get; set; }
 
         public string MobileNumber { get; set; }

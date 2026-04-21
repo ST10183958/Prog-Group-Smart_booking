@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using BookingSystem.Data;
 using BookingSystem.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookingSystem.Controllers
 {
@@ -14,17 +16,16 @@ namespace BookingSystem.Controllers
             _context = context;
         }
 
-        // GET: Patient/Dashboard
         public IActionResult Dashboard()
         {
-            var userEmail = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(userEmail))
+            var patientId = HttpContext.Session.GetInt32("PatientId");
+            if (patientId == null)
             {
                 return RedirectToAction("Index", "Account");
             }
 
             var patient = _context.Patients
-                .FirstOrDefault(p => p.EmailAddress == userEmail);
+                .FirstOrDefault(p => p.PatientId == patientId.Value);
 
             if (patient == null)
             {
@@ -34,17 +35,16 @@ namespace BookingSystem.Controllers
             return View(patient);
         }
 
-        // GET: Patient/Details
         public IActionResult Details()
         {
-            var userEmail = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(userEmail))
+            var patientId = HttpContext.Session.GetInt32("PatientId");
+            if (patientId == null)
             {
                 return RedirectToAction("Index", "Account");
             }
 
             var patient = _context.Patients
-                .FirstOrDefault(p => p.EmailAddress == userEmail);
+                .FirstOrDefault(p => p.PatientId == patientId.Value);
 
             if (patient == null)
             {
@@ -54,17 +54,16 @@ namespace BookingSystem.Controllers
             return View(patient);
         }
 
-        // GET: Patient/Edit
         public IActionResult Edit()
         {
-            var userEmail = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(userEmail))
+            var patientId = HttpContext.Session.GetInt32("PatientId");
+            if (patientId == null)
             {
                 return RedirectToAction("Index", "Account");
             }
 
             var patient = _context.Patients
-                .FirstOrDefault(p => p.EmailAddress == userEmail);
+                .FirstOrDefault(p => p.PatientId == patientId.Value);
 
             if (patient == null)
             {
@@ -74,84 +73,83 @@ namespace BookingSystem.Controllers
             return View(patient);
         }
 
-        // POST: Patient/Edit
-        // POST: Patient/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(Patient updatedPatient)
         {
-            var userEmail = HttpContext.Session.GetString("UserEmail");
-            var patient = _context.Patients
-                .FirstOrDefault(p => p.EmailAddress == userEmail);
-
-            if (patient != null)
+            var patientId = HttpContext.Session.GetInt32("PatientId");
+            if (patientId == null)
             {
-                // Update all fields regardless
-                patient.PatientName = updatedPatient.PatientName;
-                patient.PatientSurname = updatedPatient.PatientSurname;
-                patient.PassportNumber = updatedPatient.PassportNumber;
-                patient.DateOfBirth = updatedPatient.DateOfBirth;
-                patient.EmailAddress = updatedPatient.EmailAddress;
-                patient.MobileNumber = updatedPatient.MobileNumber;
-
-                _context.SaveChanges();
-
-                // Update session info if email changed
-                HttpContext.Session.SetString("UserEmail", patient.EmailAddress);
-                HttpContext.Session.SetString("UserName", patient.PatientName);
-
-                // Only show success message if we're coming from the Edit POST
-                TempData["SuccessMessage"] = "Your details have been updated successfully!";
+                return RedirectToAction("Index", "Account");
             }
+
+            var patient = _context.Patients
+                .FirstOrDefault(p => p.PatientId == patientId.Value);
+
+            if (patient == null)
+            {
+                return RedirectToAction("Index", "Account");
+            }
+
+            patient.PassportNumber = updatedPatient.PassportNumber;
+            patient.DateOfBirth = updatedPatient.DateOfBirth;
+            patient.EmailAddress = updatedPatient.EmailAddress;
+            patient.MobileNumber = updatedPatient.MobileNumber;
+
+            _context.SaveChanges();
+
+            HttpContext.Session.SetString("UserEmail", patient.EmailAddress);
+            HttpContext.Session.SetString("UserName", patient.PatientName);
+
+            TempData["SuccessMessage"] = "Your details have been updated successfully!";
 
             return RedirectToAction("Details");
         }
 
-        // GET: Patient/Appointments
         public async Task<IActionResult> Appointments()
         {
-            var userEmail = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(userEmail))
+            var patientId = HttpContext.Session.GetInt32("PatientId");
+            if (patientId == null)
             {
                 return RedirectToAction("Index", "Account");
             }
 
             var patient = await _context.Patients
-                .FirstOrDefaultAsync(p => p.EmailAddress == userEmail);
+                .FirstOrDefaultAsync(p => p.PatientId == patientId.Value);
 
             if (patient == null)
             {
                 return RedirectToAction("Index", "Account");
             }
 
-            // Get appointments for this patient
             var appointments = await _context.Appointments
-                .Where(a => a.PatientName == patient.PatientName + " " + patient.PatientSurname)
+                .Include(a => a.Doctor)
+                .Where(a => a.PatientId == patient.PatientId)
                 .ToListAsync();
 
             return View(appointments);
         }
 
-        // GET: Patient/Prescriptions
         public async Task<IActionResult> Prescriptions()
         {
-            var userEmail = HttpContext.Session.GetString("UserEmail");
-            if (string.IsNullOrEmpty(userEmail))
+            var patientId = HttpContext.Session.GetInt32("PatientId");
+            if (patientId == null)
             {
                 return RedirectToAction("Index", "Account");
             }
 
             var patient = await _context.Patients
-                .FirstOrDefaultAsync(p => p.EmailAddress == userEmail);
+                .FirstOrDefaultAsync(p => p.PatientId == patientId.Value);
 
             if (patient == null)
             {
                 return RedirectToAction("Index", "Account");
             }
 
-            // Get prescriptions for this patient
-            var prescriptions = await _context.Prescriptions
-                .Where(p => p.PatientName == patient.PatientName && p.PatientSurname == patient.PatientSurname)
+            var prescriptions = await _context.Prescription
+                .Include(p => p.Doctor)
+                .Include(p => p.Patient)
+                .Where(p => p.PatientId == patient.PatientId)
                 .ToListAsync();
 
             return View(prescriptions);

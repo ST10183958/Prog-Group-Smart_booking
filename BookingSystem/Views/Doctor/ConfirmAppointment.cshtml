@@ -74,6 +74,11 @@
             border-radius: 12px;
             margin-bottom: 25px;
         }
+
+        .validation-summary-errors {
+            color: darkred;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -87,9 +92,11 @@
             <p><strong>Preferred Date:</strong> @Model.PreferredAppointmentDate.ToShortDateString()</p>
         </div>
 
-        <form asp-action="ConfirmAppointment" asp-controller="Doctor" method="post">
+        <form asp-action="ConfirmAppointment" asp-controller="Prescription" method="post">
             @Html.AntiForgeryToken()
             <input type="hidden" name="appointmentId" value="@Model.AppointmentId" />
+
+            @Html.ValidationSummary(true, "", new { @class = "validation-summary-errors" })
 
             <div class="form-group">
                 <label for="symptoms">Symptoms</label>
@@ -102,8 +109,8 @@
             </div>
 
             <div class="form-group">
-                <label for="medicationName">Assign Medication</label>
-                <select name="medicationName" id="medicationName" required>
+                <label for="medicineId">Assign Medication</label>
+                <select name="medicineId" id="medicineId" required>
                     <option value="">-- Select Medication --</option>
                     @foreach (var item in ViewBag.Medications as List<SelectListItem>)
                     {

@@ -2,103 +2,90 @@
 
 @{
     ViewBag.Title = "Statistics Page";
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Statistics Page</title>
+<style>
+    body {
+        background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)),
+        url('https://www.transparenttextures.com/patterns/cubes.png');
+        background-size: cover;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-    <style>
-        body {
-            background: linear-gradient(rgba(95, 158, 160, 0.95), rgba(95, 158, 160, 0.95)),
-            url('https://www.transparenttextures.com/patterns/cubes.png');
-            background-size: cover;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 40px;
-        }
+    .page-title {
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: black;
+    }
 
-        .page-title {
-            text-align: center;
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            color: black;
-        }
+    .table-container {
+        background: rgba(255,255,255,0.35);
+        padding: 25px;
+        border-radius: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
 
-        .table-container {
-            background: rgba(255,255,255,0.35);
-            padding: 25px;
-            border-radius: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: rgba(255,255,255,0.5);
+        border-radius: 12px;
+        overflow: hidden;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: rgba(255,255,255,0.5);
-            border-radius: 12px;
-            overflow: hidden;
-        }
+    th, td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
 
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
+    th {
+        background: #5aa3a3;
+        color: black;
+        font-size: 18px;
+    }
 
-        th {
-            background: #5aa3a3;
-            color: black;
-            font-size: 18px;
-        }
+    tr:hover {
+        background: rgba(255,255,255,0.2);
+    }
+</style>
 
-        tr:hover {
-            background: rgba(255,255,255,0.2);
-        }
-    </style>
-</head>
-<body>
+<div class="page-title">SYSTEM STATISTICS</div>
 
-    <div class="page-title">SYSTEM STATISTICS</div>
-
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Statistic Type</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Number Of Patients</td>
-                    <td>@Model.NumOfPatients</td>
-                </tr>
-                <tr>
-                    <td>Current Number Of Appointments</td>
-                    <td>@Model.CurrentNumberOfAppointments</td>
-                </tr>
-                <tr>
-                    <td>Total Doctors</td>
-                    <td>@Model.TotalDoctors</td>
-                </tr>
-                <tr>
-                    <td>Total Patients</td>
-                    <td>@Model.TotalPatients</td>
-                </tr>
-                <tr>
-                    <td>Total Admins</td>
-                    <td>@Model.TotalAdmins</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-</body>
-</html>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Statistic Type</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Number Of Patients</td>
+                <td>@Model.NumOfPatients</td>
+            </tr>
+            <tr>
+                <td>Current Number Of Appointments</td>
+                <td>@Model.CurrentNumberOfAppointments</td>
+            </tr>
+            <tr>
+                <td>Total Doctors</td>
+                <td>@Model.TotalDoctors</td>
+            </tr>
+            <tr>
+                <td>Total Patients</td>
+                <td>@Model.TotalPatients</td>
+            </tr>
+            <tr>
+                <td>Total Admins</td>
+                <td>@Model.TotalAdmins</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

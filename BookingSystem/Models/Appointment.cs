@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.InteropServices.JavaScript;
-using DateTime = System.DateTime;
+
 namespace BookingSystem.Models
 {
     public class Appointment
@@ -17,7 +17,9 @@ namespace BookingSystem.Models
         public int AppointmentSession { get; set; }
 
         public string AppointmentIllness { get; set; }
+
         public DateTime PreferredAppointmentDate { get; set; }
+
         public int PatientId { get; set; }
 
         public int DoctorId { get; set; }

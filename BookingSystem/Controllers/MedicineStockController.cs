@@ -17,7 +17,14 @@ namespace BookingSystem.Controllers
         // GET: MedicineStock/Index
         public async Task<IActionResult> Index()
         {
-            var medicines = await _context.Medicines.ToListAsync(); 
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            if (userRole != "Admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var medicines = await _context.Medicines.ToListAsync();
             return View(medicines);
         }
 

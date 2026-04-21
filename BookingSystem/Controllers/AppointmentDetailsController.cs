@@ -1,9 +1,9 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using BookingSystem.Data;
 using BookingSystem.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace BookingSystem.Controllers
 {
@@ -15,15 +15,14 @@ namespace BookingSystem.Controllers
         {
             _context = context;
         }
-        
+
         public async Task<IActionResult> Index()
         {
-
             var doctors = await _context.Doctors.ToListAsync();
-            ViewBag.PatientName = HttpContext.Session.GetInt32("Username");
+            ViewBag.PatientName = HttpContext.Session.GetString("UserName");
             return View(doctors);
         }
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateAppointment(
@@ -35,7 +34,6 @@ namespace BookingSystem.Controllers
         {
             var patientId = HttpContext.Session.GetInt32("PatientId");
 
-            // prohibit booking if not signed in
             if (patientId == null)
             {
                 TempData["BookingError"] = "You must be logged in before booking an appointment.";
@@ -52,6 +50,11 @@ namespace BookingSystem.Controllers
                 ModelState.AddModelError("", "Please select a doctor.");
             }
 
+            if (appointmentDate == default)
+            {
+                ModelState.AddModelError("", "Please select an appointment date.");
+            }
+
             if (!ModelState.IsValid)
             {
                 var doctors = await _context.Doctors.ToListAsync();
@@ -59,7 +62,6 @@ namespace BookingSystem.Controllers
                 return View("Index", doctors);
             }
 
-            // You can change this logic later if you want real time slots.
             int appointmentSession = 1;
 
             var appointment = new Appointment
@@ -78,7 +80,6 @@ namespace BookingSystem.Controllers
 
             TempData["BookingSuccess"] = "Appointment booked successfully.";
             return RedirectToAction("Index");
-            return View();
         }
     }
 }
