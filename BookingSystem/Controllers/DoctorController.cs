@@ -3,17 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using BookingSystem.Models;
 using BookingSystem.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using BookingSystem.Services;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BookingSystem.Controllers
 {
     public class DoctorController : Controller
     {
         private readonly BookingSystemContext _context;
+        private readonly EmailService _emailService;
 
-        public DoctorController(BookingSystemContext context)
+        public DoctorController(BookingSystemContext context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
@@ -47,17 +51,10 @@ namespace BookingSystem.Controllers
             var doctorId = HttpContext.Session.GetInt32("DoctorId");
 
             if (doctorId == null)
-            {
                 return RedirectToAction("Index", "Doctor");
-            }
 
             var doctor = await _context.Doctors
                 .FirstOrDefaultAsync(d => d.DoctorId == doctorId.Value);
-
-            if (doctor == null)
-            {
-                return RedirectToAction("Index", "Doctor");
-            }
 
             var appointments = await _context.Appointments
                 .Include(a => a.Patient)
@@ -76,20 +73,11 @@ namespace BookingSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeclineAppointment(int appointmentId)
         {
-            var doctorId = HttpContext.Session.GetInt32("DoctorId");
-
-            if (doctorId == null)
-            {
-                return RedirectToAction("Index", "Doctor");
-            }
-
             var appointment = await _context.Appointments
-                .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId && a.DoctorId == doctorId.Value);
+                .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId);
 
             if (appointment == null)
-            {
                 return NotFound();
-            }
 
             _context.Appointments.Remove(appointment);
             await _context.SaveChangesAsync();
@@ -103,9 +91,7 @@ namespace BookingSystem.Controllers
             var doctorId = HttpContext.Session.GetInt32("DoctorId");
 
             if (doctorId == null)
-            {
                 return RedirectToAction("Index", "Doctor");
-            }
 
             var appointment = await _context.Appointments
                 .Include(a => a.Patient)
@@ -113,9 +99,7 @@ namespace BookingSystem.Controllers
                 .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId && a.DoctorId == doctorId.Value);
 
             if (appointment == null)
-            {
                 return NotFound();
-            }
 
             var medicines = await _context.Medicines
                 .OrderBy(m => m.MedicineName)
@@ -141,9 +125,7 @@ namespace BookingSystem.Controllers
             var doctorId = HttpContext.Session.GetInt32("DoctorId");
 
             if (doctorId == null)
-            {
                 return RedirectToAction("Index", "Doctor");
-            }
 
             var appointment = await _context.Appointments
                 .Include(a => a.Patient)
@@ -151,27 +133,19 @@ namespace BookingSystem.Controllers
                 .FirstOrDefaultAsync(a => a.AppointmentId == appointmentId && a.DoctorId == doctorId.Value);
 
             if (appointment == null)
-            {
                 return NotFound();
-            }
 
             if (string.IsNullOrWhiteSpace(symptoms))
-            {
                 ModelState.AddModelError("", "Symptoms are required.");
-            }
 
             if (string.IsNullOrWhiteSpace(description))
-            {
                 ModelState.AddModelError("", "Description / Notes are required.");
-            }
 
             var medicine = await _context.Medicines
                 .FirstOrDefaultAsync(m => m.MedicineId == medicineId);
 
             if (medicine == null)
-            {
                 ModelState.AddModelError("", "Please select a valid medicine.");
-            }
 
             if (!ModelState.IsValid)
             {
@@ -188,6 +162,13 @@ namespace BookingSystem.Controllers
                 return View(appointment);
             }
 
+            // =========================
+            // SAFELY CAPTURE DATA FIRST
+            // =========================
+            var patientEmail = appointment.Patient.EmailAddress;
+            var patientName = appointment.Patient.PatientName;
+            var doctorName = appointment.Doctor.DoctorName;
+
             var consultationRecord = new ConsultationRecord
             {
                 AppointmentId = appointment.AppointmentId,
@@ -201,15 +182,27 @@ namespace BookingSystem.Controllers
             _context.ConssultationRecords.Add(consultationRecord);
 
             if (medicine.Stock > 0)
-            {
-                medicine.Stock -= 1;
-            }
+                medicine.Stock--;
 
             _context.Appointments.Remove(appointment);
 
             await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Appointment confirmed successfully.";
+            // =========================
+            // EMAIL NOTIFICATION
+            // =========================
+            await _emailService.SendEmailAsync(
+                patientEmail,
+                "Appointment Confirmed",
+                $"Hello {patientName},\n\n" +
+                $"Your appointment has been confirmed by Dr. {doctorName}.\n\n" +
+                $"Symptoms: {symptoms}\n" +
+                $"Medication: {medicine.MedicineName}\n\n" +
+                $"Please check your portal for details."
+            );
+
+            TempData["SuccessMessage"] = "Appointment confirmed and patient notified.";
+
             return RedirectToAction("AppointmentsPage");
         }
     }

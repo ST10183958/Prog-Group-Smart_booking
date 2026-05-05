@@ -1,4 +1,5 @@
 using BookingSystem.Data;
+using BookingSystem.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookingSystem
@@ -14,6 +15,7 @@ namespace BookingSystem
 
             builder.Services.AddSession();
             builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddScoped<EmailService>();
 
             builder.Services.AddDbContext<BookingSystemContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
