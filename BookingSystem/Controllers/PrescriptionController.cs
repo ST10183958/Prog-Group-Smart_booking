@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace BookingSystem.Controllers
 {
+    
     public class PrescriptionController : Controller
     {
         private readonly BookingSystemContext _context;
