@@ -1,7 +1,7 @@
 <img width="1536" height="1024" alt="MedWebLogo" src="https://github.com/user-attachments/assets/81e219dd-335b-44e1-b6ab-b55210dd720b" />
 
 
-# BookingSystem
+# MedWeb
 Doctor gmail/password
 sipho.nkosi@medmail.co.za,12345
 thandi.mokoena@medmail.co.za, 12345
