@@ -1,6 +1,9 @@
 using BookingSystem.Data;
 using BookingSystem.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BookingSystem
 {
